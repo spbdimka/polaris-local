@@ -435,8 +435,8 @@ class Kettle(DeviceListener, ConnectionStatusListener):
             self._logger.error(f"Missing device properties: {exc}")
             return
     
-        assert self.device.curve == 29, f'curve type {self.device.curve} is not implemented'
-        assert self.device.protocol == 2, f'protocol {self.device.protocol} is not supported'
+        #assert self.device.curve == 29, f'curve type {self.device.curve} is not implemented'
+        #assert self.device.protocol == 2, f'protocol {self.device.protocol} is not supported'
     
         kw = {}
         if self._read_timeout is not None:
