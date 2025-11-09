@@ -1,0 +1,54 @@
+{
+  "entity": {
+    "water_heater": {
+      "syncleo_kettle": {
+        "default": "mdi:kettle",
+        "state": {
+          "off": "mdi:kettle-off"
+        },
+        "state_attributes": {
+          "operation_mode": {
+            "default": "mdi:circle-medium",
+            "state": {
+              "iq_boil": "mdi:water-plus",
+              "warmup": "mdi:heat-wave",
+              "tea_ceremony": "mdi:fire-circle",
+              "warmup_keep": "mdi:water-thermometer",
+              "boil_keep": "mdi:finance",
+              "off": "mdi:power",
+              "heat": "mdi:chart-bubble"
+            }
+          }
+        }
+      }
+    },
+    "switch": {
+      "volume": {
+        "default": "mdi:volume-high",
+        "state": {
+          "off": "mdi:volume-off"
+        }
+      },
+      "child_lock": {
+        "default": "mdi:lock-open-variant",
+        "state": {
+          "on": "mdi:lock"
+        }
+      },
+      "backlight": {
+        "default": "mdi:led-on",
+        "state": {
+          "off": "mdi:led-off"
+        }
+      }
+    },
+    "light": {
+      "night_light": {
+        "default": "mdi:lightbulb-night",
+        "state": {
+          "off": "mdi:lightbulb-off"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "domain": "syncleo_kettle",
+  "name": "Syncleo Kettle",
+  "codeowners": ["@samoswall"],
+  "config_flow": true,
+  "dependencies": ["zeroconf"],
+  "documentation": "https://github.com/your_username/syncleo-kettle-ha",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "version": "1.0.0",
+  "zeroconf": ["_syncleo._udp.local."]
+}
