@@ -283,6 +283,9 @@ POLARIS_DEVICE = {
     92:  {"model": "PGS-1450CWIFI", "class": "steamer"},
     94:  {"model": "PSS-7070KWIFI", "class": "steamer"},
     50:  {"model": "PETB-0202TC", "class": "toothbrush"},
+    ### Hommyn devices
+    33:  {"model": "Electrolux Centurio IQ 3.0", "class": "boiler"},
+
 }
 
 POLARIS_KETTLE_TYPE = ["2","6","8","29","36","37","38","51","52","53","54","56","57","58","59","60","61","62","63","67","82","83","84","85","86","97","105","106","117","121","139","165","175","176","177","189","194","196","205","209","253","254","255","260","271","308"]
@@ -301,3 +304,4 @@ POLARIS_HUMIDDIFIER_5B_MODE_TYPE = ["72","74","87","147","155"]
 POLARIS_HUMIDDIFIER_4_MODE_TYPE = ["15","71","73","75","99"]
 POLARIS_HUMIDDIFIER_3A_MODE_TYPE = ["25"]
 POLARIS_HUMIDDIFIER_3B_MODE_TYPE = ["153","157","158"]
+
