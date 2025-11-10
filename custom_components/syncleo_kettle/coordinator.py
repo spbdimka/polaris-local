@@ -57,6 +57,7 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
             "power_type": PowerType.OFF,
             "is_heating": False,
             "child_lock": False,
+            "BSS": False,
             "volume": False,
             "backlight": False,
             "night": False,
@@ -562,4 +563,5 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
         
 
         await self._hass.async_add_executor_job(set_color_night)
+
 
