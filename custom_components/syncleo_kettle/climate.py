@@ -14,7 +14,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
-from .coordinator import KettleDataUpdateCoordinator
+from .coordinator import PolarisDataUpdateCoordinator
 from .const import DOMAIN
 from .protocol import PowerType
 
@@ -113,4 +113,5 @@ class SyncleoKettleClimate(ClimateEntity):
     @property
     def should_poll(self) -> bool:
         """No need to poll, coordinator notifies of updates."""
+
         return False
