@@ -22,6 +22,7 @@ from .protocol import (
     ModeMessage,
     TargetTemperatureMessage,
     ChildLockMessage,
+    BSSMessage,
     VolumeMessage,
     BacklightMessage,
     NightMessage,
@@ -206,6 +207,9 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
             
         elif isinstance(message, ChildLockMessage):
             self.data["child_lock"] = message.value
+        
+        elif isinstance(message, BSSMessage):
+            self.data["BSS"] = message.value
             
         elif isinstance(message, VolumeMessage):
             self.data["volume"] = message.value
@@ -558,3 +562,4 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
         
 
         await self._hass.async_add_executor_job(set_color_night)
+
