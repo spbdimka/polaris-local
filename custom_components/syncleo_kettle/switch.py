@@ -33,6 +33,7 @@ async def async_setup_entry(
         switches = [
             ChildLockSwitch(coordinator, config_entry.entry_id),
             VolumeSwitch(coordinator, config_entry.entry_id),
+            BSSSwitch(coordinator, config_entry.entry_id),
         ]
     
     async_add_entities(switches)
@@ -121,6 +122,48 @@ class VolumeSwitch(SwitchEntity):
         """No need to poll, coordinator notifies of updates."""
         return False
 
+class BSSSwitch(SwitchEntity):
+    """Representation of a Volume switch."""
+    
+    _attr_has_entity_name = True
+    _attr_translation_key = "BSS"
+    
+    def __init__(self, coordinator: PolarisDataUpdateCoordinator, entry_id: str) -> None:
+        """Initialize the Volume switch."""
+        self.coordinator = coordinator
+        self._entry_id = entry_id
+        self._attr_unique_id = f"{coordinator._mac}_BSS"
+        self._attr_device_info = coordinator.device_info
+
+    @property
+    def available(self) -> bool:
+        """Return if entity is available."""
+        return self.coordinator.data.get("connected", False)
+
+    @property
+    def is_on(self) -> bool:
+        """Return true if volume is enabled."""
+        return self.coordinator.data.get("BSS", False)
+
+    async def async_turn_on(self, **kwargs: Any) -> None:
+        """Turn the BSS on."""
+        await self.coordinator.async_set_BSS(True)
+
+    async def async_turn_off(self, **kwargs: Any) -> None:
+        """Turn the BSS off."""
+        await self.coordinator.async_set_BSS(False)
+
+    async def async_added_to_hass(self) -> None:
+        """When entity is added to hass."""
+        self.async_on_remove(
+            self.coordinator.async_add_listener(self.async_write_ha_state)
+        )
+
+    @property
+    def should_poll(self) -> bool:
+        """No need to poll, coordinator notifies of updates."""
+        return False
+
 class BacklightSwitch(SwitchEntity):
     """Representation of a Backlight switch."""
     
@@ -162,3 +205,4 @@ class BacklightSwitch(SwitchEntity):
     def should_poll(self) -> bool:
         """No need to poll, coordinator notifies of updates."""
         return False
+
