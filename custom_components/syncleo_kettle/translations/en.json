@@ -30,6 +30,9 @@
       },
       "backlight": {
         "name": "Backlight"
+      },
+      "BSS": {
+        "name": "Bacteria Stop Technology (70C for 20m)"
       }
     },
     "water_heater": {
@@ -43,4 +46,5 @@
       }
     }
   }
+
 }
