@@ -579,6 +579,14 @@ class VolumeMessage(SimpleBooleanMessage):
     def _repr_fields(self) -> ReprDict:
         return {'volume': self.value}
 
+class BSSMessage(SimpleBooleanMessage):
+    TYPE = 41
+
+    def pack_data(self) -> bytes:
+        return struct.pack('<B', 1 if self.value else 0)
+
+    def _repr_fields(self) -> ReprDict:
+        return {'BSS': self.value}
 
 class BacklightMessage(SimpleBooleanMessage):
     TYPE = 28
