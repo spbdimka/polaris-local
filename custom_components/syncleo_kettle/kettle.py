@@ -12,6 +12,7 @@ from .protocol import (
     UDPConnection,
     ModeMessage,
     ChildLockMessage,
+    BSSMessage,
     VolumeMessage,
     BacklightMessage,
     NightMessage,
