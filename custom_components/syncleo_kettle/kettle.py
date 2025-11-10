@@ -502,6 +502,7 @@ class Kettle(DeviceListener, ConnectionStatusListener):
 
     def set_BSS(self, enabled: bool, callback: callable):
         """Set BSS state."""
+        _LOGGER.debug("BSS: %s", enabled)
         if self.conn is None:
             self._logger.error("Cannot set BSS: not connected")
             callback(False)
