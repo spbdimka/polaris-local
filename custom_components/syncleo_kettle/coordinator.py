@@ -528,6 +528,14 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
         
         await self._hass.async_add_executor_job(set_volume)
 
+    async def async_set_BSS(self, enabled: bool) -> None:
+        """Set BSS state."""
+        def set_BSS():
+#            message = BSSMessage(enabled)
+            self.kettle.set_BSS(enabled, lambda x: _LOGGER.debug(f"BSS set callback: {x}"))
+        
+        await self._hass.async_add_executor_job(set_BSS)
+
     async def async_set_backlight(self, enabled: bool) -> None:
         """Set backlight state."""
         def set_backlight():
@@ -548,4 +556,5 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
         def set_color_night():
             self.kettle.set_color_night(r, g, b, lambda x: _LOGGER.debug(f"Color night set callback: {x}"))
         
+
         await self._hass.async_add_executor_job(set_color_night)
