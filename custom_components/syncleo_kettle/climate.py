@@ -52,10 +52,10 @@ class SyncleoKettleClimate(ClimateEntity):
             ClimateEntityFeature.TURN_ON |
             ClimateEntityFeature.TURN_OFF
         )
-        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT]
-        self._attr_min_temp = 40
-        self._attr_max_temp = 100
-        self._attr_target_temperature_step = 5
+        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.ON, HVACMode.BOILKEEP, HVACMode.WARMUP]
+        self._attr_min_temp = 5
+        self._attr_max_temp = 75
+        self._attr_target_temperature_step = 1
 
     @property
     def available(self) -> bool:
@@ -86,7 +86,7 @@ class SyncleoKettleClimate(ClimateEntity):
         """Return current HVAC action."""
         if self.coordinator.data.get("is_heating", False):
             return "heating"
-        elif self.hvac_mode == HVACMode.HEAT:
+        elif self.hvac_mode == HVACMode.ON:
             return "idle"
         else:
             return "off"
@@ -102,7 +102,7 @@ class SyncleoKettleClimate(ClimateEntity):
             await self.coordinator.async_set_power(PowerType.OFF)
         else:  # HVACMode.HEAT
             # Use CUSTOM mode to allow custom temperature
-            await self.coordinator.async_set_power(PowerType.CUSTOM)
+            await self.coordinator.async_set_power(PowerType.ON)
 
     async def async_added_to_hass(self) -> None:
         """When entity is added to hass."""
@@ -115,3 +115,4 @@ class SyncleoKettleClimate(ClimateEntity):
         """No need to poll, coordinator notifies of updates."""
 
         return False
+
