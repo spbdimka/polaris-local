@@ -16,12 +16,7 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from .coordinator import PolarisDataUpdateCoordinator
 from .const import (
     DOMAIN,
-    POLARIS_KETTLE_TYPE,
-    POLARIS_KETTLE_WITH_WEIGHT_TYPE,
-    POLARIS_KETTLE_WITH_NIGHT_TYPE,
-    POLARIS_KETTLE_WITH_BACKLIGHT_TYPE,
-    POLARIS_KETTLE_WITH_TEA_TIME_MODE_TYPE,
-    POLARIS_KETTLE_WITH_KEEP_WITH_WARM_MODE_TYPE,
+    HOMMYN_BOILER_TYPE
 )
 
 
