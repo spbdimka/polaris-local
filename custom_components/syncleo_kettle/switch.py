@@ -123,13 +123,13 @@ class VolumeSwitch(SwitchEntity):
         return False
 
 class BSSSwitch(SwitchEntity):
-    """Representation of a Volume switch."""
+    """Representation of a BSS switch."""
     
     _attr_has_entity_name = True
     _attr_translation_key = "BSS"
     
     def __init__(self, coordinator: PolarisDataUpdateCoordinator, entry_id: str) -> None:
-        """Initialize the Volume switch."""
+        """Initialize the BSS switch."""
         self.coordinator = coordinator
         self._entry_id = entry_id
         self._attr_unique_id = f"{coordinator._mac}_BSS"
@@ -142,7 +142,7 @@ class BSSSwitch(SwitchEntity):
 
     @property
     def is_on(self) -> bool:
-        """Return true if volume is enabled."""
+        """Return true if BSS is enabled."""
         return self.coordinator.data.get("BSS", False)
 
     async def async_turn_on(self, **kwargs: Any) -> None:
@@ -205,4 +205,5 @@ class BacklightSwitch(SwitchEntity):
     def should_poll(self) -> bool:
         """No need to poll, coordinator notifies of updates."""
         return False
+
 
