@@ -15,7 +15,7 @@ from .discovery import SyncleoDiscovery
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.DEBUG)
 
-PLATFORMS: list[Platform] = [Platform.WATER_HEATER, Platform.SWITCH, Platform.LIGHT, Platform.SENSOR]
+PLATFORMS: list[Platform] = [Platform.WATER_HEATER, Platform.SWITCH, Platform.LIGHT, Platform.SENSOR, Platform.CLIMATE]
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Set up the Syncleo Kettle component."""
@@ -72,4 +72,5 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         coordinator: PolarisDataUpdateCoordinator = hass.data[entry.domain].pop(entry.entry_id)
         await coordinator.shutdown()
     
+
     return unload_ok
