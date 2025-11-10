@@ -499,6 +499,16 @@ class Kettle(DeviceListener, ConnectionStatusListener):
         message = ChildLockMessage(enabled)
         self.conn.enqueue_message(WrappedMessage(message, handler=callback, ack=True))
 
+    def set_BSS(self, enabled: bool, callback: callable):
+        """Set BSS state."""
+        if self.conn is None:
+            self._logger.error("Cannot set BSS: not connected")
+            callback(False)
+            return
+            
+        message = BSSMessage(enabled)
+        self.conn.enqueue_message(WrappedMessage(message, handler=callback, ack=True))
+    
     def set_volume(self, enabled: bool, callback: callable):
         """Set volume state."""
         if self.conn is None:
