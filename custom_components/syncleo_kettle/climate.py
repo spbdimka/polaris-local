@@ -44,16 +44,6 @@ class SyncleoKettleClimate(ClimateEntity):
         self._entry_id = entry_id
         self._attr_unique_id = f"{coordinator._mac}_climate"
         self._attr_device_info = coordinator.device_info
-        # Получим модель и её уровни
-        model = device.model_id
-        levels = MODEL_POWER_LEVELS.get(model, DEFAULT_POWER_LEVELS)
-        self._levels = levels
-        # Смапим уровни в пресеты
-        self._attr_preset_modes = [lv.key for lv in levels]
-        # Текущий пресет
-        self._attr_preset_mode = self._load_initial_preset()
-        
-        
         
         # Static attributes
         self._attr_temperature_unit = UnitOfTemperature.CELSIUS
@@ -100,17 +90,7 @@ class SyncleoKettleClimate(ClimateEntity):
             return "idle"
         else:
             return "off"
-    
-    async def async_set_preset_mode(self, preset_mode: str) -> None:
-        # Найти уровень по ключу
-        level = next((lv for lv in self._levels if lv.key == preset_mode), None)
-        if not level:
-            raise ValueError(f"Unknown preset {preset_mode}")
-        # Отправить соответствующий proto_code устройству
-        await self._send_power_level(level.proto_code)
-        self._attr_preset_mode = preset_mode
-        self.async_write_ha_state()
-    
+
     async def async_set_temperature(self, **kwargs: Any) -> None:
         """Set new target temperature."""
         if (temperature := kwargs.get(ATTR_TEMPERATURE)) is not None:
@@ -135,6 +115,5 @@ class SyncleoKettleClimate(ClimateEntity):
         """No need to poll, coordinator notifies of updates."""
 
         return False
-
 
 

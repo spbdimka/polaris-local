@@ -53,17 +53,7 @@
       "night_light": {
         "name": "Ночник"
       }
-    },
-    "climate": {
-      "preset_mode": {
-        "state": {
-          "power_i": "Мощность I (700 Вт)",
-          "power_ii": "Мощность II (1400 Вт)",
-          "power_iii": "Мощность III (2000 Вт)"
-        }
-      }
     }
   }
 
 }
-
