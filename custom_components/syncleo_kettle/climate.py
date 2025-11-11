@@ -52,7 +52,7 @@ class SyncleoKettleClimate(ClimateEntity):
             ClimateEntityFeature.TURN_ON |
             ClimateEntityFeature.TURN_OFF
         )
-        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.ON, HVACMode.BOILKEEP, HVACMode.WARMUP]
+        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT, HVACMode.COOL, HVACMode.HEAT_COOL]
         self._attr_min_temp = 5
         self._attr_max_temp = 75
         self._attr_target_temperature_step = 1
@@ -86,7 +86,7 @@ class SyncleoKettleClimate(ClimateEntity):
         """Return current HVAC action."""
         if self.coordinator.data.get("is_heating", False):
             return "heating"
-        elif self.hvac_mode == HVACMode.ON:
+        elif self.hvac_mode == HVACMode.HEAT:
             return "idle"
         else:
             return "off"
@@ -115,4 +115,5 @@ class SyncleoKettleClimate(ClimateEntity):
         """No need to poll, coordinator notifies of updates."""
 
         return False
+
 
