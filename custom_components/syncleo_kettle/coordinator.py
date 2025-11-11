@@ -11,7 +11,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import DOMAIN, POLARIS_DEVICE
+from .const import DOMAIN, POLARIS_DEVICE, POWER_PRESETS, PRESET_700W, PRESET_1400W, PRESET_2000W
 from .kettle import Kettle
 from .protocol import (
     PowerType,
@@ -81,16 +81,20 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
         if preset not in POWER_PRESETS:
             raise ValueError(f"Unknown power preset: {preset}")
 
-        map_to_level = {
-            PRESET_700W: PowerLevel.P700,
-            PRESET_1400W: PowerLevel.P1400,
-            PRESET_2000W: PowerLevel.P2000,
+        MAP_PRESET_TO_POWERTYPE = {
+            PRESET_700W: PowerType.ON,
+            PRESET_1400W: PowerType.BOILKEEP,
+            PRESET_2000W: PowerType.WARMUP,
         }
 
-        level = map_to_level[preset]
-        await self.hass.async_add_executor_job(
-            self._kettle.protocol.set_power_level, level
-        )
+        ptype = MAP_PRESET_TO_POWERTYPE[preset]
+
+        setter = getattr(self._kettle, "async_set_power_type", None)
+        if callable(setter):
+            await setter(ptype)
+        else:
+            await self.hass.async_add_executor_job(self._kettle.set_power_type, ptype)
+
         self.data["power_preset"] = preset
         self.async_update_listeners()
 
