@@ -15,7 +15,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .coordinator import PolarisDataUpdateCoordinator
-from .const import DOMAIN
+from .const import DOMAIN, POWER_PRESETS, PRESET_700W, PRESET_1400W, PRESET_2000W
 from .protocol import PowerType
 
 _LOGGER = logging.getLogger(__name__)
