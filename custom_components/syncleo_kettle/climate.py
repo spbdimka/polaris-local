@@ -22,6 +22,13 @@ _LOGGER = logging.getLogger(__name__)
 
 SUPPORTED_TEMPERATURES = list(range(40, 101, 5))  # 40°C to 100°C in 5°C steps
 
+HVAC_TO_POWER_PRESET: dict[HVACMode, str] = {
+    HVACMode.OFF: PRESET_700W,    # заглушка, если нужно
+    HVACMode.HEAT: PRESET_1400W,  # обычный обогрев
+    HVACMode.AUTO: PRESET_2000W,  # авто/турбо
+    # при необходимости добавите HVACMode.ECO: PRESET_700W и т.п.
+}
+
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: ConfigType,
@@ -50,12 +57,24 @@ class SyncleoKettleClimate(ClimateEntity):
         self._attr_supported_features = (
             ClimateEntityFeature.TARGET_TEMPERATURE |
             ClimateEntityFeature.TURN_ON |
-            ClimateEntityFeature.TURN_OFF
+            ClimateEntityFeature.TURN_OFF |
+            ClimateEntityFeature.PRESET_MODE
         )
         self._attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT, HVACMode.COOL, HVACMode.HEAT_COOL]
         self._attr_min_temp = 5
         self._attr_max_temp = 75
         self._attr_target_temperature_step = 1
+
+    @property
+    def preset_modes(self) -> list[str]:
+        return POWER_PRESETS
+
+    @property
+    def preset_mode(self) -> str | None:
+        return self.coordinator.get_power_preset()
+        
+    async def async_set_preset_mode(self, preset_mode: str) -> None:
+        await self.coordinator.async_set_power_preset(preset_mode)
 
     @property
     def available(self) -> bool:
@@ -103,6 +122,9 @@ class SyncleoKettleClimate(ClimateEntity):
         else:  # HVACMode.HEAT
             # Use CUSTOM mode to allow custom temperature
             await self.coordinator.async_set_power(PowerType.ON)
+        preset = HVAC_TO_POWER_PRESET.get(hvac_mode)
+        if preset and preset != self.coordinator.get_power_preset():
+            await self.coordinator.async_set_power_preset(preset)
 
     async def async_added_to_hass(self) -> None:
         """When entity is added to hass."""

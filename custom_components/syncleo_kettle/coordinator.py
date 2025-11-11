@@ -44,6 +44,7 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
         self._mac = mac
         self._device_token = device_token
         
+        
         super().__init__(
             hass,
             _LOGGER,
@@ -58,6 +59,7 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
             "is_heating": False,
             "child_lock": False,
             "BSS": False,
+            "power_preset": PRESET_1400W,
             "volume": False,
             "backlight": False,
             "night": False,
@@ -74,6 +76,26 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
         self._last_service_info = None
         self._last_reconnect_time = 0
         self._setup_complete = False  # Добавляем флаг завершения настройки
+        
+    async def async_set_power_preset(self, preset: str) -> None:
+        if preset not in POWER_PRESETS:
+            raise ValueError(f"Unknown power preset: {preset}")
+
+        map_to_level = {
+            PRESET_700W: PowerLevel.P700,
+            PRESET_1400W: PowerLevel.P1400,
+            PRESET_2000W: PowerLevel.P2000,
+        }
+
+        level = map_to_level[preset]
+        await self.hass.async_add_executor_job(
+            self._kettle.protocol.set_power_level, level
+        )
+        self.data["power_preset"] = preset
+        self.async_update_listeners()
+
+    def get_power_preset(self) -> str:
+        return self.data.get("power_preset", PRESET_1400W)
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Update data via library."""
