@@ -307,4 +307,11 @@ POLARIS_HUMIDDIFIER_3B_MODE_TYPE = ["153","157","158"]
 HOMMYN_BOILER_TYPE = ["33"]
 HOMMYN_BOILER_WITH_IONISER_TYPE = ["33"]
 
+DEFAULT_POWER_LEVELS = [
+    PowerLevel("power_i",   "Power I (700W)",  700, 0x01),
+    PowerLevel("power_ii",  "Power II (1400W)", 1400, 0x02),
+    PowerLevel("power_iii", "Power III (2000W)", 2000, 0x03),
+]
+
+
 
