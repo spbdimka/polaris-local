@@ -61,6 +61,7 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
             "child_lock": False,
             "BSS": False,
             "power_preset": PRESET_1400W,
+            "tank_volume": None,
             "volume": False,
             "backlight": False,
             "night": False,
