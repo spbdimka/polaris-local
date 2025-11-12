@@ -91,17 +91,17 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
 
         ptype = MAP_PRESET_TO_POWERTYPE[preset]
 
-        setter = getattr(self._kettle, "async_set_power_type", None)
+        setter = getattr(self.kettle, "async_set_power_type", None)
         if callable(setter):
             await setter(ptype)
         else:
-            await self.hass.async_add_executor_job(self._kettle.set_power_type, ptype)
+            await self.hass.async_add_executor_job(self.kettle.set_power_type, ptype)
 
         self.data["power_preset"] = preset
         self.async_update_listeners()
 
     def get_power_preset(self) -> str:
-        return self.data.get("power_preset", PRESET_1400W)
+        return self.data.get("power_preset", PRESET_700W)
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Update data via library."""
