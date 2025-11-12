@@ -656,8 +656,8 @@ class TankVolumeMessage(CmdIncomingMessage):
 
     @classmethod
     def from_packed_data(cls, data: bytes, seq=0) -> CurrentTemperatureMessage:
-        assert len(data) == 2, 'data size expected to be 2'
-        nat, frac = struct.unpack('BB', data)
+        assert len(data) == 1, 'data size expected to be 2'
+        nat, frac = struct.unpack('B', data)
         vol = int(nat + (frac / 100))
         return CurrentTemperatureMessage(vol, seq=seq)
 
