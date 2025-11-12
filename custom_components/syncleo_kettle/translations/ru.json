@@ -21,11 +21,11 @@
     }
   },
   "entity": {
-	"sensor": {
-	  "tank_volume": {
+    "sensor": {
+      "tank_volume": {
         "name": "Объем бака"
       }
-	},
+    },
     "switch": {
       "child_lock": {
         "name": "Блокировка от детей"
@@ -60,11 +60,15 @@
       }
     }
   },
-  "state": {
-    "preset_mode": {
-      "700W": "700 Вт",
-      "1400W": "1400 Вт",
-      "2000W": "2000 Вт"
+  "state_attributes": {
+    "climate": {
+      "preset_mode": {
+        "state": {
+          "700W": "700 Вт",
+          "1400W": "1400 Вт",
+          "2000W": "2000 Вт"
+        }
+      }
     }
   }
 }

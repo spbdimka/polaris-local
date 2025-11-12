@@ -60,7 +60,7 @@ class SyncleoKettleClimate(ClimateEntity):
             ClimateEntityFeature.TURN_OFF |
             ClimateEntityFeature.PRESET_MODE
         )
-        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT, HVACMode.COOL, HVACMode.HEAT_COOL]
+        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT]
         self._attr_min_temp = 5
         self._attr_max_temp = 75
         self._attr_target_temperature_step = 1
@@ -120,11 +120,13 @@ class SyncleoKettleClimate(ClimateEntity):
         if hvac_mode == HVACMode.OFF:
             await self.coordinator.async_set_power(PowerType.OFF)
         else:  # HVACMode.HEAT
-            # Use CUSTOM mode to allow custom temperature
+            # Включаем устройство
             await self.coordinator.async_set_power(PowerType.ON)
-        preset = HVAC_TO_POWER_PRESET.get(hvac_mode)
-        if preset and preset != self.coordinator.get_power_preset():
-            await self.coordinator.async_set_power_preset(preset)
+            # и гарантированно применяем текущий выбранный пресет мощности
+            # (чтобы устройство не ушло в дефолт при включении)
+            await self.coordinator.async_set_power_preset(
+                self.coordinator.get_power_preset()
+            )
 
     async def async_added_to_hass(self) -> None:
         """When entity is added to hass."""

@@ -82,7 +82,6 @@ class TankVolumeSensor(SensorEntity):
     _attr_has_entity_name = True
     _attr_name = "Tank Volume"
     _attr_native_unit_of_measurement = UnitOfVolume.LITERS
-    _attr_device_class = SensorDeviceClass.VOLUME
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_icon = "mdi:water-boiler"
     
