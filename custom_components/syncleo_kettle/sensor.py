@@ -77,7 +77,7 @@ class CurrentTemperatureSensor(SensorEntity):
         
         
 class TankVolumeSensor(SensorEntity):
-    """Representation of a Current Temperature sensor."""
+    """Representation of a Tank Volume sensor."""
     
     _attr_has_entity_name = True
     _attr_name = "Tank Volume"
@@ -87,7 +87,7 @@ class TankVolumeSensor(SensorEntity):
     _attr_icon = "mdi:water-boiler"
     
     def __init__(self, coordinator: PolarisDataUpdateCoordinator, entry_id: str) -> None:
-        """Initialize the Current Temperature sensor."""
+        """Initialize the Tank Volume sensor."""
         self.coordinator = coordinator
         self._entry_id = entry_id
         self._attr_unique_id = f"{coordinator._mac}_tank_volume"
@@ -100,7 +100,7 @@ class TankVolumeSensor(SensorEntity):
 
     @property
     def native_value(self) -> float | None:
-        """Return the current temperature."""
+        """Return the current tank volume."""
         return self.coordinator.data.get("tank_volume")
 
     async def async_added_to_hass(self) -> None:

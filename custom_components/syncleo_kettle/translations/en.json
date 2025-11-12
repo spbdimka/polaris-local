@@ -21,6 +21,11 @@
     }
   },
   "entity": {
+	"sensor": {
+	  "tank_volume": {
+        "name": "Объем бака"
+      }
+	},
     "switch": {
       "child_lock": {
         "name": "Child--Lock"
@@ -45,6 +50,12 @@
         "name": "Night Light"
       }
     }
+  },
+  "state": {
+    "preset_mode": {
+      "700W": "700W",
+      "1400W": "1400W",
+      "2000W": "2000W"
+    }
   }
-
 }
