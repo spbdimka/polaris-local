@@ -26,7 +26,6 @@ HVAC_TO_POWER_PRESET: dict[HVACMode, str] = {
     HVACMode.OFF: PRESET_700W,    # заглушка, если нужно
     HVACMode.HEAT: PRESET_1400W,  # обычный обогрев
     HVACMode.AUTO: PRESET_2000W,  # авто/турбо
-    # при необходимости добавите HVACMode.ECO: PRESET_700W и т.п.
 }
 
 async def async_setup_entry(
