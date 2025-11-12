@@ -645,6 +645,28 @@ class CurrentTemperatureMessage(CmdIncomingMessage):
     def _repr_fields(self) -> ReprDict:
         return {'current_temperature': self.current_temperature}
 
+class TankVolumeMessage(CmdIncomingMessage):
+    TYPE = 31
+
+    tank_volume: int
+
+    def __init__(self, vol: int, seq: Optional[int] = None):
+        super().__init__(seq)
+        self.tank_volume = vol
+
+    @classmethod
+    def from_packed_data(cls, data: bytes, seq=0) -> CurrentTemperatureMessage:
+        assert len(data) == 2, 'data size expected to be 2'
+        nat, frac = struct.unpack('BB', data)
+        vol = int(nat + (frac / 100))
+        return CurrentTemperatureMessage(vol, seq=seq)
+
+    def pack_data(self) -> bytes:
+        return bytes([self.tank_volume, 0])
+
+    def _repr_fields(self) -> ReprDict:
+        return {'tank_volume': self.tank_volume}
+
 class NightMessage(SimpleBooleanMessage):
     TYPE = 50
 

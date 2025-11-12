@@ -9,7 +9,7 @@ from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorStateClass,
 )
-from homeassistant.const import UnitOfTemperature
+from homeassistant.const import UnitOfTemperature, UnitOfVolume
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -62,6 +62,45 @@ class CurrentTemperatureSensor(SensorEntity):
     def native_value(self) -> float | None:
         """Return the current temperature."""
         return self.coordinator.data.get("current_temperature")
+
+    async def async_added_to_hass(self) -> None:
+        """When entity is added to hass."""
+        self.async_on_remove(
+            self.coordinator.async_add_listener(self.async_write_ha_state)
+        )
+
+    @property
+    def should_poll(self) -> bool:
+        """No need to poll, coordinator notifies of updates."""
+        return False
+        
+        
+class TankVolumeSensor(SensorEntity):
+    """Representation of a Current Temperature sensor."""
+    
+    _attr_has_entity_name = True
+    _attr_name = "Tank Volume"
+    _attr_native_unit_of_measurement = UnitOfVolume.LITERS
+    _attr_device_class = SensorDeviceClass.VOLUME
+    _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_icon = "mdi:water-boiler"
+    
+    def __init__(self, coordinator: PolarisDataUpdateCoordinator, entry_id: str) -> None:
+        """Initialize the Current Temperature sensor."""
+        self.coordinator = coordinator
+        self._entry_id = entry_id
+        self._attr_unique_id = f"{coordinator._mac}_tank_volume"
+        self._attr_device_info = coordinator.device_info
+
+    @property
+    def available(self) -> bool:
+        """Return if entity is available."""
+        return self.coordinator.data.get("connected", False)
+
+    @property
+    def native_value(self) -> float | None:
+        """Return the current temperature."""
+        return self.coordinator.data.get("tank_volume")
 
     async def async_added_to_hass(self) -> None:
         """When entity is added to hass."""

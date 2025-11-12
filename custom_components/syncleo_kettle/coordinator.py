@@ -23,6 +23,7 @@ from .protocol import (
     TargetTemperatureMessage,
     ChildLockMessage,
     BSSMessage,
+    TankVolumeMessage,
     VolumeMessage,
     BacklightMessage,
     NightMessage,
@@ -237,6 +238,9 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
         
         elif isinstance(message, BSSMessage):
             self.data["BSS"] = message.value
+        
+        elif isinstance(message, TankVolumeMessage):
+            self.data["tank_volume"] = message.value
             
         elif isinstance(message, VolumeMessage):
             self.data["volume"] = message.value
