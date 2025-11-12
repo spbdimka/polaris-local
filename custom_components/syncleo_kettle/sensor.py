@@ -32,7 +32,7 @@ async def async_setup_entry(
     sensors = [
         CurrentTemperatureSensor(coordinator, config_entry.entry_id),
         DeviceHardwareSensor(coordinator, config_entry.entry_id),
-        TankVolumeSensorSensor(coordinator, config_entry.entry_id),
+        TankVolumeSensor(coordinator, config_entry.entry_id),
     ]
     
     async_add_entities(sensors)
