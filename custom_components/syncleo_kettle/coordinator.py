@@ -581,6 +581,12 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
         
         await self._hass.async_add_executor_job(stop)
         
+    async def async_send_tank(self, enabled: bool) -> None:
+        def set_send_tank():
+#            message = ChildLockMessage(enabled)
+            self.kettle.set_send_tank(enabled, lambda x: _LOGGER.debug(f"Send tank set callback: {x}"))
+        
+        await self._hass.async_add_executor_job(set_send_tank)
 
     async def async_set_child_lock(self, enabled: bool) -> None:
         """Set child lock state."""
