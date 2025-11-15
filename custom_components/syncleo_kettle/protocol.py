@@ -734,7 +734,7 @@ class TankVolumeMessage(CmdIncomingMessage):
         assert len(data) == 1, 'data size expected to be 2'
         vol, = struct.unpack('B', data)
         vol = int(vol)
-        return CurrentTemperatureMessage(vol, seq=seq)
+        return TankVolumeMessage(vol, seq=seq)
 
     def pack_data(self) -> bytes:
         return bytes([self.tank_volume, 0])
