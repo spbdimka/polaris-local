@@ -188,7 +188,7 @@ class Message:
         assert len(decrypted_data) != 0, 'decrypted data is null'
         assert head.seq == decrypted_data[0], f'decrypted seq mismatch {head.seq} != {decrypted_data[0]}'
 
-        # _logger.debug('Message.from_encrypted: plaintext: '+decrypted_data.hex())
+        _logger.debug('Message.from_encrypted: plaintext: '+decrypted_data.hex())
 
         if head.type == FrameType.ACK:
             return AckMessage(head.seq)
