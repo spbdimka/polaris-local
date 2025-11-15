@@ -9,13 +9,13 @@ from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorStateClass,
 )
-from homeassistant.const import UnitOfTemperature, UnitOfVolume
+from homeassistant.const import UnitOfTemperature, UnitOfVolume, UnitOfMass
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .coordinator import PolarisDataUpdateCoordinator
-from .const import DOMAIN
+from .const import DOMAIN, POLARIS_KETTLE_WITH_WEIGHT_TYPE
 from .protocol import DeviceHardwareMessage
 
 _LOGGER = logging.getLogger(__name__)
