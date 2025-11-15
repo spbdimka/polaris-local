@@ -14,6 +14,7 @@ from .protocol import (
     ModeMessage,
     ChildLockMessage,
     BSSMessage,
+    TankVolumeMessage,
     VolumeMessage,
     BacklightMessage,
     NightMessage,
@@ -528,7 +529,7 @@ class Kettle(DeviceListener, ConnectionStatusListener):
             callback(False)
             return
             
-        message = TankMessage(enabled)
+        message = TankVolumeMessage(enabled)
         self.conn.enqueue_message(WrappedMessage(message, handler=callback, ack=True))
         
     def set_child_lock(self, enabled: bool, callback: callable):
