@@ -254,7 +254,7 @@ class PolarisDataUpdateCoordinator(DataUpdateCoordinator, IncomingMessageListene
             self.data["BSS"] = message.value
         
         elif isinstance(message, TankVolumeMessage):
-            self.data["tank_volume"] = message.value
+            self.data["tank_volume"] = message.tank_volume
             
         elif isinstance(message, VolumeMessage):
             self.data["volume"] = message.value
