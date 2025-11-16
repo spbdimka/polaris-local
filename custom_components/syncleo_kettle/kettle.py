@@ -520,18 +520,6 @@ class Kettle(DeviceListener, ConnectionStatusListener):
         self.conn.enqueue_message(WrappedMessage(message, handler=callback, ack=True))
         
 
-
-    def set_send_tank(self, enabled: bool, callback: callable):
-        """Set tank state."""
-        _LOGGER.debug("TankMessage: %s", enabled)
-        if self.conn is None:
-            self._logger.error("Cannot set Tank: not connected")
-            callback(False)
-            return
-            
-        message = TankVolumeMessage(enabled)
-        self.conn.enqueue_message(WrappedMessage(message, handler=callback, ack=True))
-        
     def set_child_lock(self, enabled: bool, callback: callable):
         """Set child lock state."""
         _LOGGER.debug("ChildLockMessage: %s", enabled)
