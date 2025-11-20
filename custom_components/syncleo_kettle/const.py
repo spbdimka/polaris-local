@@ -283,8 +283,6 @@ POLARIS_DEVICE = {
     92:  {"model": "PGS-1450CWIFI", "class": "steamer"},
     94:  {"model": "PSS-7070KWIFI", "class": "steamer"},
     50:  {"model": "PETB-0202TC", "class": "toothbrush"},
-    ### Мой водогрей, надо будет выпилить
-    33:  {"model": "Electrolux Centurio IQ 3.0", "class": "boiler"},
 
 }
 
@@ -304,10 +302,6 @@ POLARIS_HUMIDDIFIER_5B_MODE_TYPE = ["72","74","87","147","155"]
 POLARIS_HUMIDDIFIER_4_MODE_TYPE = ["15","71","73","75","99"]
 POLARIS_HUMIDDIFIER_3A_MODE_TYPE = ["25"]
 POLARIS_HUMIDDIFIER_3B_MODE_TYPE = ["153","157","158"]
-
-####
-HOMMYN_BOILER_TYPE = ["33"]
-HOMMYN_BOILER_WITH_IONISER_TYPE = ["33"]
 
 
 PRESET_700W = "700W"

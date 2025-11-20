@@ -253,7 +253,7 @@ def _normalize_vendor(v: str) -> str:
         return "polaris"
     if "polaris" in v:
         return "polaris"
-    if "hommyn" in v or "rusklimate" in v:
+    if "hommyn" in v or "rusclimate" in v:
         return "hommyn"
     # Если ничего не найдём, считаем что это устройство Polaris
     return "polaris"
