@@ -13,7 +13,7 @@ from homeassistant.data_entry_flow import FlowResult
 
 from .coordinator import PolarisDataUpdateCoordinator
 from .discovery import SyncleoDiscovery
-from .const import DOMAIN, POLARIS_DEVICE 
+from .const import DOMAIN, POLARIS_DEVICE, RUSCLIMATE_DEVICE 
 
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.DEBUG)
@@ -59,13 +59,17 @@ class ConfigFlow(config_entries.ConfigFlow, domain="syncleo_kettle"):
         for device in devices:
             # Формируем понятное описание устройства
             description = f"{device['devtype']}: {device['mac']}"
+            vendor_norm = _normalize_vendor(device.get('vendor', ''))
+            catalog = POLARIS_DEVICE if vendor_norm == "polaris" else RUSCLIMATE_DEVICE
+            
             if device['vendor'] != 'Unknown':
                 description += f" ({device['vendor']}"
-                if int(device['basetype']) in POLARIS_DEVICE:
-                    description += f" {POLARIS_DEVICE[int(device['basetype'])]['model']}"
-                else:
-                    description += f" Unknown"
-                description += ")"
+                try:
+                    model = catalog.get(int(device['basetype']), {}).get('model', 'Unknown')
+                except Exception:
+                    model = "Unknown"
+                description += f" {model})"
+            self._device_options[device['mac']] = description
 
 #            description = f"{device['devtype']}: {device['mac']}"
 #            if device['vendor'] != 'Unknown':
@@ -201,9 +205,13 @@ class ConfigFlow(config_entries.ConfigFlow, domain="syncleo_kettle"):
 async def validate_input(hass: HomeAssistant, data: dict[str, Any], discovered_devices: dict = None) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
     
+    vendor_norm = _normalize_vendor(discovered_devices[mac].get("vendor", ""))
+    catalog = POLARIS_DEVICE if vendor_norm == "polaris" else RUSCLIMATE_DEVICE
     mac = data["mac"].replace(":", "").lower()
     device_token = data["device_token"]
-    devtype = discovered_devices[mac]["devtype"]
+    devtype = int(discovered_devices[mac]["devtype"])
+    model = catalog.get(devtype, {}).get("model", "Unknown")
+
     _LOGGER.debug("---DATA--- %s %s %s", devtype, mac, device_token)
     
     # Basic validation
@@ -237,4 +245,15 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any], discovered_d
         _LOGGER.error("Validation failed: %s", err)
         raise ConnectionError(f"Cannot connect to device: {err}") from err
     
-    return {"title": f"{discovered_devices[mac]['vendor']} {POLARIS_DEVICE[int(devtype)]['model']} {mac}"}
+    return {"title": f"{discovered_devices[mac]['vendor']} {model} {mac}"}
+    
+def _normalize_vendor(v: str) -> str:
+    v = (v or "").strip().lower()
+    if not v:
+        return "polaris"
+    if "polaris" in v:
+        return "polaris"
+    if "hommyn" in v or "rusklimat" in v:
+        return "hommyn"
+    # Если ничего не найдём, считаем что это устройство Polaris
+    return "polaris"
